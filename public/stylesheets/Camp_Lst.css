@@ -1,0 +1,8 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    padding: 0;
+}
