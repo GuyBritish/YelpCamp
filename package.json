@@ -1,24 +1,21 @@
 {
-  "name": "yelpcamp_redone",
+  "name": "yelpcamp",
   "version": "1.0.0",
-  "description": "A campground review website",
-  "main": "index.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GuyBritish/YelpCamp.git"
-  },
-  "author": "Guy British",
+  "author": "Max",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/GuyBritish/YelpCamp/issues"
-  },
-  "homepage": "https://github.com/GuyBritish/YelpCamp#readme",
   "dependencies": {
-    "ejs": "^3.1.6",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.2",
     "express": "^4.17.1",
-    "mongoose": "^5.13.2"
+    "express-session": "^1.17.1",
+    "mongoose": "^5.9.6",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.0.1"
   }
 }
