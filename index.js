@@ -7,6 +7,10 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 
+const methodOverride = require("method-override");
+
+app.use(methodOverride("_method"));
+
 //=================================================================================================
 
 const mongoose = require("mongoose");
@@ -16,6 +20,7 @@ mongoose.connect("mongodb://localhost:27017/YelpCamp", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 	serverSelectionTimeoutMS: 10000,
+	useFindAndModify: false,
 });
 
 const dbConnect = mongoose.connection;
@@ -52,10 +57,23 @@ app.post("/campgrounds", async (req, res) => {
 	res.redirect(`/campgrounds/${camp._id}`);
 });
 
-app.get("/campgrounds/:id", async (req, res) => {
+app.get("/campgrounds/:id/edit", async (req, res) => {
 	const { id } = req.params;
 	const camp = await Campground.findById(id);
 	res.render("campgrounds/edit", { camp });
+});
+
+app.put("/campgrounds/:id", async (req, res) => {
+	const { id } = req.params;
+	const { name, price, location } = req.body.newCamp;
+	const deletedCamp = await Campground.findByIdAndUpdate(id, req.body.newCamp);
+	res.redirect(`/campgrounds/${deletedCamp._id}`);
+});
+
+app.delete("/campgrounds/:id", async (req, res) => {
+	const { id } = req.params;
+	const deletedCamp = await Campground.findByIdAndDelete(id);
+	res.redirect("/campgrounds");
 });
 
 //=================================================================================================
