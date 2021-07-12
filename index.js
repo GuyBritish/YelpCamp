@@ -30,6 +30,34 @@ app.get("/", (req, res) => {
 	res.render("home");
 });
 
+app.get("/campgrounds", async (req, res) => {
+	const camps = await Campground.find({});
+	res.render("campgrounds/index", { camps });
+});
+
+app.get("/campgrounds/new", (req, res) => {
+	res.render("campgrounds/new");
+});
+
+app.get("/campgrounds/:id", async (req, res) => {
+	const { id } = req.params;
+	const camp = await Campground.findById(id);
+	res.render("campgrounds/show", { camp });
+});
+
+app.post("/campgrounds", async (req, res) => {
+	const { name, price, location } = req.body.newCamp;
+	const camp = new Campground(req.body.newCamp);
+	await camp.save();
+	res.redirect(`/campgrounds/${camp._id}`);
+});
+
+app.get("/campgrounds/:id", async (req, res) => {
+	const { id } = req.params;
+	const camp = await Campground.findById(id);
+	res.render("campgrounds/edit", { camp });
+});
+
 //=================================================================================================
 
 app.listen(3000, () => {

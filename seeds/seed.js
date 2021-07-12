@@ -23,9 +23,9 @@ async function seedDB() {
 	for (let i = 0; i <= 49; ++i) {
 		randNum = Math.floor(Math.random() * 1000);
 		camp = new Campground({
-			title: `Camp ${i + 1}`,
+			title: `${seed.descriptors[randNum % 18]} ${seed.places[randNum % 21]}`,
 			price: "$15",
-			description: `${seed.descriptors[randNum % 18]} ${seed.places[randNum % 21]}`,
+			description: `Camp #${i + 1}`,
 			location: `${seed.cities[randNum].city}, ${seed.cities[randNum].state}`,
 		});
 		await camp.save();
