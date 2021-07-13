@@ -11,6 +11,10 @@ const methodOverride = require("method-override");
 
 app.use(methodOverride("_method"));
 
+const ejsMate = require("ejs-mate");
+
+app.engine("ejs", ejsMate);
+
 //=================================================================================================
 
 const mongoose = require("mongoose");

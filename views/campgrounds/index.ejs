@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,18 +7,15 @@
     <title> Campgrounds </title>
 </head>
 
-<body>
+<body> -->
+<% layout("layouts/boilerplate") %>
     <h1> All campgrounds </h1>
-
-    <a href="/campgrounds/new">
-        <button> Add new campground </button>
-    </a>
     
     <ul>
         <% for (let camp of camps) { %>
             <li> <a href="/campgrounds/<%=camp._id%>"> <%=camp.title%> </a> </li>
         <% } %>  
     </ul>
-</body>
+<!-- </body>
 
-</html>
+</html> -->

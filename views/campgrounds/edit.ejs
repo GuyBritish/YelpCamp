@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,8 @@
     <title> Edit Camp Information </title>
 </head>
 
-<body>
+<body> -->
+<% layout("layouts/boilerplate") %>
     <h1> Edit <%=camp.title%>'s Information </h1>
 
     <form action="/campgrounds/<%=camp._id%>?_method=PUT" method="POST">
@@ -32,6 +33,6 @@
             <button> Delete campground </button>
         </form>
     </footer>    
-</body>
+<!-- </body>
 
-</html>
+</html> -->
