@@ -18,12 +18,13 @@ app.engine("ejs", ejsMate);
 const ExpressError = require("./utils/ExpressError");
 const catchAsync = require("./utils/catchAsync");
 const Joi = require("joi");
-const { campSchema } = require("./schemas");
+const { campSchema, reviewSchema } = require("./schemas");
 
 //=================================================================================================
 
 const mongoose = require("mongoose");
 const Campground = require("./models/Campground");
+const Review = require("./models/Review");
 
 mongoose.connect("mongodb://localhost:27017/YelpCamp", {
 	useNewUrlParser: true,
@@ -42,6 +43,15 @@ dbConnect.once("open", () => {
 
 function validateCamp(req, res, next) {
 	const { error } = campSchema.validate(req.body);
+	if (error) {
+		const msg = error.details.map((el) => el.message).join(",");
+		throw new ExpressError(400, msg);
+	}
+	next();
+}
+
+function validateReview(req, res, next) {
+	const { error } = reviewSchema.validate(req.body);
 	if (error) {
 		const msg = error.details.map((el) => el.message).join(",");
 		throw new ExpressError(400, msg);
@@ -92,6 +102,21 @@ app.post(
 		const camp = new Campground(req.body.newCamp);
 		await camp.save();
 		res.redirect(`/campgrounds/${camp._id}`);
+	})
+);
+
+app.post(
+	"/campgrounds/:id/reviews",
+	validateReview,
+	catchAsync(async (req, res) => {
+		const targetCamp = await Campground.findById(req.params.id);
+
+		const { rating, body } = req.body.newReview;
+		const review = new Review(req.body.newReview);
+		targetCamp.reviews.push(review);
+		await review.save();
+		await targetCamp.save();
+		res.redirect(`/campgrounds/${targetCamp._id}`);
 	})
 );
 
