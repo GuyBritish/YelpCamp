@@ -17,6 +17,8 @@ app.engine("ejs", ejsMate);
 
 const ExpressError = require("./utils/ExpressError");
 const catchAsync = require("./utils/catchAsync");
+const Joi = require("joi");
+const { campSchema } = require("./schemas");
 
 //=================================================================================================
 
@@ -37,6 +39,15 @@ dbConnect.once("open", () => {
 });
 
 //=================================================================================================
+
+function validateCamp(req, res, next) {
+	const { error } = campSchema.validate(req.body);
+	if (error) {
+		const msg = error.details.map((el) => el.message).join(",");
+		throw new ExpressError(400, msg);
+	}
+	next();
+}
 
 app.get("/", (req, res) => {
 	res.render("home");
@@ -74,8 +85,10 @@ app.get(
 
 app.post(
 	"/campgrounds",
+	validateCamp,
 	catchAsync(async (req, res, next) => {
-		const { name, price, location } = req.body.newCamp;
+		//if (!req.body.newCamp) throw new ExpressError(400, "Invalid Campground Data");
+		const { title, price, location } = req.body.newCamp;
 		const camp = new Campground(req.body.newCamp);
 		await camp.save();
 		res.redirect(`/campgrounds/${camp._id}`);
@@ -84,6 +97,7 @@ app.post(
 
 app.put(
 	"/campgrounds/:id",
+	validateCamp,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
 		const { name, price, location } = req.body.newCamp;
@@ -108,7 +122,13 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
 	const { statusCode = 500, message = "Something went wrong!" } = err;
-	res.status(statusCode).send(message);
+	if (!err.statusCode) {
+		err.statusCode = 500;
+	}
+	if (!err.message) {
+		err.message = "Something went wrong!";
+	}
+	res.status(statusCode).render("error", { err });
 });
 
 //=================================================================================================
