@@ -3,6 +3,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
+const session = require("express-session");
 
 const app = express();
 
@@ -10,12 +11,24 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(express.urlencoded({ extended: true }));
 
 app.use(methodOverride("_method"));
 
 app.engine("ejs", ejsMate);
+
+const sessionConfig = {
+	secret: "insertenvironmentvariablehere",
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		httpOnly: true,
+		exprires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+		maxAge: 7 * 24 * 60 * 60 * 1000,
+	},
+};
+
+app.use(session(sessionConfig));
 
 //=================================================================================================
 
