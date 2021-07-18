@@ -56,6 +56,7 @@ router.post(
 		const { title, price, location } = req.body.newCamp;
 		const camp = new Campground(req.body.newCamp);
 		await camp.save();
+		req.flash("success", "Successfully created a new campground!");
 		res.redirect(`/campgrounds/${camp._id}`);
 	})
 );
@@ -67,6 +68,7 @@ router.put(
 		const { id } = req.params;
 		const { name, price, location } = req.body.newCamp;
 		const deletedCamp = await Campground.findByIdAndUpdate(id, req.body.newCamp);
+		req.flash("success", "Successfully updated campground!");
 		res.redirect(`/campgrounds/${deletedCamp._id}`);
 	})
 );
@@ -76,6 +78,7 @@ router.delete(
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
 		const deletedCamp = await Campground.findByIdAndDelete(id);
+		req.flash("success", "Successfully deleted campground!");
 		res.redirect("/campgrounds");
 	})
 );
