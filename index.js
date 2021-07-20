@@ -66,8 +66,9 @@ passport.deserializeUser(User.deserializeUser());
 
 //=================================================================================================
 
-const campgrounds = require("./routes/campgrounds");
-const reviews = require("./routes/reviews");
+const campgroundsRoutes = require("./routes/campgrounds");
+const reviewsRoutes = require("./routes/reviews");
+const userRoutes = require("./routes/users");
 
 app.use((req, res, next) => {
 	res.locals.success = req.flash("success");
@@ -79,8 +80,9 @@ app.get("/", (req, res) => {
 	res.render("home");
 });
 
-app.use("/campgrounds", campgrounds);
-app.use("/campgrounds/:campId/reviews", reviews);
+app.use("/", userRoutes);
+app.use("/campgrounds", campgroundsRoutes);
+app.use("/campgrounds/:campId/reviews", reviewsRoutes);
 
 app.all("*", (req, res, next) => {
 	//res.status(404).send("Error 404 Not Found");
