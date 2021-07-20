@@ -41,6 +41,7 @@ mongoose.connect("mongodb://localhost:27017/YelpCamp", {
 	useUnifiedTopology: true,
 	serverSelectionTimeoutMS: 10000,
 	useFindAndModify: false,
+	useCreateIndex: true,
 });
 
 const dbConnect = mongoose.connection;
@@ -48,6 +49,20 @@ dbConnect.on("error", console.error.bind(console, "Database connection error:"))
 dbConnect.once("open", () => {
 	console.log("Connected to database");
 });
+
+//=================================================================================================
+
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/User");
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //=================================================================================================
 
