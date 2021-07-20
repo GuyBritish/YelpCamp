@@ -7,6 +7,8 @@ const { campSchema } = require("../schemas");
 
 const Campground = require("../models/Campground");
 
+const { isAuth } = require("../middleware");
+
 //=================================================================================================
 
 function validateCamp(req, res, next) {
@@ -26,7 +28,7 @@ router.get(
 	})
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", isAuth, (req, res) => {
 	res.render("campgrounds/new");
 });
 
@@ -58,6 +60,7 @@ router.get(
 
 router.post(
 	"/",
+	isAuth,
 	validateCamp,
 	catchAsync(async (req, res, next) => {
 		//if (!req.body.newCamp) throw new ExpressError(400, "Invalid Campground Data");
@@ -71,6 +74,7 @@ router.post(
 
 router.put(
 	"/:id",
+	isAuth,
 	validateCamp,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
@@ -83,6 +87,7 @@ router.put(
 
 router.delete(
 	"/:id",
+	isAuth,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
 		const deletedCamp = await Campground.findByIdAndDelete(id);

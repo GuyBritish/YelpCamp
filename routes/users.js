@@ -17,12 +17,23 @@ router.get("/login", (req, res) => {
 	res.render("users/login");
 });
 
+router.get("/logout", (req, res) => {
+	req.logout();
+	req.flash("success", "You have logged out!");
+	res.redirect("/campgrounds");
+});
+
 router.post(
 	"/login",
 	passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }),
 	(req, res) => {
 		req.flash("success", "Welcome back!");
-		res.redirect("/campgrounds");
+		let returnTo = "/campgrounds";
+		if (req.session.origin) {
+			returnTo = req.session.origin;
+			delete req.session.origin;
+		}
+		res.redirect(returnTo);
 	}
 );
 
@@ -33,13 +44,15 @@ router.post(
 			const { email, username, password } = req.body.newUser;
 			let user = new User({ email, username });
 			user = await User.register(user, password);
+			req.login(user, (err) => {
+				if (err) return next(err);
+				req.flash("success", "Welcome to YelpCamp!");
+				return res.redirect("/campgrounds");
+			});
 		} catch (err) {
 			req.flash("error", err.message);
-			res.redirect("/register");
+			return res.redirect("/register");
 		}
-
-		req.flash("success", "Welcome to YelpCamp!");
-		res.redirect("/campgrounds");
 	})
 );
 
