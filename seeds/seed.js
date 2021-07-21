@@ -30,6 +30,7 @@ async function seedDB() {
 			price: Math.floor(Math.random() * 20) + 15,
 			description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste id possimus ut animi, illo, rem deserunt nihil sequi laudantium tempore nulla aut doloribus omnis debitis tenetur! Eaque eum repudiandae iusto!`,
 			location: `${seed.cities[randLocation].city}, ${seed.cities[randLocation].state}`,
+			author: "60f7dffca3397d5b049997c2",
 		});
 		await camp.save();
 	}

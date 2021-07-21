@@ -7,18 +7,9 @@ const { campSchema } = require("../schemas");
 
 const Campground = require("../models/Campground");
 
-const { isAuth } = require("../middleware");
+const { isAuth, checkAuthorCamp, validateCamp } = require("../middleware");
 
 //=================================================================================================
-
-function validateCamp(req, res, next) {
-	const { error } = campSchema.validate(req.body);
-	if (error) {
-		const msg = error.details.map((el) => el.message).join(",");
-		throw new ExpressError(400, msg);
-	}
-	next();
-}
 
 router.get(
 	"/",
@@ -36,7 +27,7 @@ router.get(
 	"/:id",
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
-		const camp = await Campground.findById(id).populate("reviews");
+		const camp = await Campground.findById(id).populate("reviews").populate("author");
 		if (!camp) {
 			req.flash("error", "Couldn't find that campground!");
 			return res.redirect("/campgrounds");
@@ -47,6 +38,8 @@ router.get(
 
 router.get(
 	"/:id/edit",
+	isAuth,
+	checkAuthorCamp,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
 		const camp = await Campground.findById(id);
@@ -66,6 +59,7 @@ router.post(
 		//if (!req.body.newCamp) throw new ExpressError(400, "Invalid Campground Data");
 		const { title, price, location } = req.body.newCamp;
 		const camp = new Campground(req.body.newCamp);
+		camp.author = req.user._id;
 		await camp.save();
 		req.flash("success", "Successfully created a new campground!");
 		res.redirect(`/campgrounds/${camp._id}`);
@@ -75,19 +69,21 @@ router.post(
 router.put(
 	"/:id",
 	isAuth,
+	checkAuthorCamp,
 	validateCamp,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
 		const { name, price, location } = req.body.newCamp;
-		const deletedCamp = await Campground.findByIdAndUpdate(id, req.body.newCamp);
+		const targetCamp = await Campground.findByIdAndUpdate(id, req.body.newCamp);
 		req.flash("success", "Successfully updated campground!");
-		res.redirect(`/campgrounds/${deletedCamp._id}`);
+		res.redirect(`/campgrounds/${targetCamp._id}`);
 	})
 );
 
 router.delete(
 	"/:id",
 	isAuth,
+	checkAuthorCamp,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
 		const deletedCamp = await Campground.findByIdAndDelete(id);
