@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
+const { storage } = require("../media/config");
+const multer = require("multer");
+const upload = multer({ storage });
+
 const catchAsync = require("../utils/catchAsync");
 
 const { isAuth, checkAuthorCamp, validateCamp } = require("../middleware");
@@ -17,7 +21,7 @@ router.get("/:id", catchAsync(Control.showCamp));
 
 router.get("/:id/edit", isAuth, checkAuthorCamp, catchAsync(Control.editCampForm));
 
-router.post("/", isAuth, validateCamp, catchAsync(Control.createCamp));
+router.post("/", isAuth, upload.array("images"), validateCamp, catchAsync(Control.createCamp));
 
 router.put("/:id", isAuth, checkAuthorCamp, validateCamp, catchAsync(Control.editCamp));
 

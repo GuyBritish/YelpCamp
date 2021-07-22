@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config();
+}
+
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -19,7 +23,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 const sessionConfig = {
-	secret: "insertenvironmentvariablehere",
+	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: true,
 	cookie: {

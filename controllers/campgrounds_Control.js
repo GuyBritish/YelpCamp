@@ -44,7 +44,9 @@ const createCamp = async (req, res, next) => {
 	//if (!req.body.newCamp) throw new ExpressError(400, "Invalid Campground Data");
 	const { title, price, location } = req.body.newCamp;
 	const camp = new Campground(req.body.newCamp);
+	camp.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
 	camp.author = req.user._id;
+	console.log(camp);
 	await camp.save();
 	req.flash("success", "Successfully created a new campground!");
 	res.redirect(`/campgrounds/${camp._id}`);
