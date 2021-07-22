@@ -13,7 +13,7 @@
         <h1 class="text-center"> Edit <%=camp.title%>'s Information </h1>
         <div class="col-6 offset-3">
 
-            <form action="/campgrounds/<%=camp._id%>?_method=PUT" method="POST" class="validated-form" novalidate>
+            <form action="/campgrounds/<%=camp._id%>?_method=PUT" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
 
                 <div class="mb-3">
                     <label class="form-label" for="title"> Title </label>
@@ -31,7 +31,10 @@
                     </div>
                 </div>
                 
-                <input type="file" name="images" multiple>
+                <div class="mb-3">
+                    <label for="images" class="form-label"> Add Image(s) </label>
+                    <input type="file" name="images" id="images" multiple>
+                </div>
 
                 <!-- <div class="mb-3">
                     <label class="form-label" for="image"> Image Url </label>

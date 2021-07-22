@@ -23,7 +23,14 @@ router.get("/:id/edit", isAuth, checkAuthorCamp, catchAsync(Control.editCampForm
 
 router.post("/", isAuth, upload.array("images"), validateCamp, catchAsync(Control.createCamp));
 
-router.put("/:id", isAuth, checkAuthorCamp, validateCamp, catchAsync(Control.editCamp));
+router.put(
+	"/:id",
+	isAuth,
+	checkAuthorCamp,
+	upload.array("images"),
+	validateCamp,
+	catchAsync(Control.editCamp)
+);
 
 router.delete("/:id", isAuth, checkAuthorCamp, catchAsync(Control.deleteCamp));
 

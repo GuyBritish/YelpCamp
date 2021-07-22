@@ -46,7 +46,6 @@ const createCamp = async (req, res, next) => {
 	const camp = new Campground(req.body.newCamp);
 	camp.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
 	camp.author = req.user._id;
-	console.log(camp);
 	await camp.save();
 	req.flash("success", "Successfully created a new campground!");
 	res.redirect(`/campgrounds/${camp._id}`);
@@ -56,6 +55,8 @@ const editCamp = async (req, res) => {
 	const { id } = req.params;
 	const { name, price, location } = req.body.newCamp;
 	const targetCamp = await Campground.findByIdAndUpdate(id, req.body.newCamp);
+	targetCamp.images.push(...req.files.map((f) => ({ url: f.path, filename: f.filename })));
+	await targetCamp.save();
 	req.flash("success", "Successfully updated campground!");
 	res.redirect(`/campgrounds/${targetCamp._id}`);
 };
