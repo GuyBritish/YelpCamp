@@ -6,8 +6,9 @@ const Review = require("../models/Review");
 const createReview = async (req, res) => {
 	const targetCamp = await Campground.findById(req.params.campId);
 
-	const { rating, body } = req.body.newReview;
-	const review = new Review(req.body.newReview);
+	let { rating, body } = req.body.newReview;
+	rating = parseInt(rating);
+	const review = new Review({ rating, body });
 	review.author = req.user._id;
 	targetCamp.reviews.push(review);
 	await review.save();
