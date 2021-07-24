@@ -8,6 +8,7 @@ module.exports.campSchema = Joi.object({
 		location: Joi.string().required(),
 		description: Joi.string().required(),
 	}).required(),
+	delImg: Joi.array(),
 });
 
 module.exports.reviewSchema = Joi.object({

@@ -47,6 +47,16 @@
                         Looks good!
                     </div>
                 </div>
+
+                <div class="mb-3">
+                    <% camp.images.forEach(function(img,i) { %>
+                        <img class="img-thumbnail" src="<%=img.thumbnail%> " alt="camp image">
+                        <div class="form-check-inline">
+                            <input type="checkbox" id="del-img-<%=i%>" name="delImg[]" value="<%=img.filename%>">
+                        </div>
+                        <label for="del-img-<%=i%> "> Delete </label>
+                    <% }) %>  
+                </div>
     
                 <div class="mb-3">
                     <label class="form-label" for="description"> Description </label>
