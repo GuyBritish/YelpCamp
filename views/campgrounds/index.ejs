@@ -13,16 +13,25 @@
     
         <% for (let camp of camps) { %>
             <div class="card mb-3">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="<%=camp.image%>" alt="camp thumbnail">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title"> <%=camp.title%> </h5>
-                        <p class="card-text text-muted"> <%=camp.location%> </p>
-                        <p class="card-text"> <%=camp.description%> </p>
-                        <a href="/campgrounds/<%=camp._id%>" class="btn btn-primary"> View details </a>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <% if (camp.images.length) { %> 
+                            <img class="img-fluid" src="<%=camp.images[0].url%>" alt="camp thumbnail">
+                        <% } else { %> 
+                            <img class="img-fluid" src="https://res.cloudinary.com/dqttprqho/image/upload/v1627159611/YelpCamp/forrest-and-mountains-illustration_hgoq59.png" alt="camp thumbnail">
+                        <% } %> 
                     </div>
+                    
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"> <%=camp.title%> </h5>
+                            <p class="card-text text-muted"> <%=camp.location%> </p>
+                            <p class="card-text"> <%=camp.description%> </p>
+                            <a href="/campgrounds/<%=camp._id%>" class="btn btn-primary"> View details </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         <% } %>  
