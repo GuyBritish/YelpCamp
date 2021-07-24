@@ -16,6 +16,7 @@ const CampgroundSchema = new mongoose.Schema({
 	price: Number,
 	description: String,
 	location: String,
+
 	author: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
@@ -26,6 +27,18 @@ const CampgroundSchema = new mongoose.Schema({
 			ref: "Review",
 		},
 	],
+
+	geometry: {
+		type: {
+			type: String,
+			enum: ["Point"],
+			required: true,
+		},
+		coordinates: {
+			type: [Number],
+			required: true,
+		},
+	},
 });
 
 CampgroundSchema.post("findOneAndDelete", async function (doc) {
