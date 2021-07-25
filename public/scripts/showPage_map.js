@@ -3,7 +3,7 @@ let map = new mapboxgl.Map({
 	container: "map", // container ID
 	style: "mapbox://styles/mapbox/light-v10", // style URL
 	center: camp.geometry.coordinates, // starting position [lng, lat]
-	zoom: 9, // starting zoom
+	zoom: 10, // starting zoom
 });
 
 let marker = new mapboxgl.Marker({})
