@@ -40,7 +40,13 @@ async function seedDB() {
 			description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste id possimus ut animi, illo, rem deserunt nihil sequi laudantium tempore nulla aut doloribus omnis debitis tenetur! Eaque eum repudiandae iusto!`,
 			location: `${seed.cities[randLocation].city}, ${seed.cities[randLocation].state}`,
 			author: "60f7dffca3397d5b049997c2",
-			geometry: { type: "Point", coordinates: [-113.1331, 47.0202] },
+			geometry: {
+				type: "Point",
+				coordinates: [
+					seed.cities[randLocation].longitude,
+					seed.cities[randLocation].latitude,
+				],
+			},
 		});
 		await camp.save();
 	}
