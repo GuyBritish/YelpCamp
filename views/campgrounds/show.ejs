@@ -19,9 +19,6 @@
     <div class="row">
         <div class="col-6">
 
-            <div class="show-map" id='map'>
-            </div>
-
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <% camp.images.forEach((img, i) => { %> 
@@ -69,11 +66,13 @@
         </div>
 
         <div class="col-6"> 
+            <div class="show-map mb-3" id='map'>
+            </div>
+            
             <% if (currUser) { %> 
-
                 <h2> Leave a Review </h2>
                 <form action="/campgrounds/<%=camp._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <fieldset class="starability-basic">
                             <input type="radio" id="first-rate1" name="newReview[rating]" value="1" checked/>
                             <label for="first-rate1" title="Terrible">1 star</label>
@@ -89,7 +88,7 @@
                     </div>
             
                     <div class="mb-3"> 
-                        <label class="form-label" for="body"> Review </label>
+                        <label class="form-label" for="body"> <strong> Review </strong> </label>
                         <textarea class="form-control" type="text" name="newReview[body]" id="body" cols="30" rows="3" required></textarea>
                         <div class="valid-feedback">
                             Looks good!
