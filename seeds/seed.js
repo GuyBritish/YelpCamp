@@ -20,7 +20,7 @@ const seed = require("./seedList");
 async function seedDB() {
 	await Campground.deleteMany({});
 	let randLocation, randName1, randName2, camp;
-	for (let i = 0; i <= 49; ++i) {
+	for (let i = 0; i <= 199; ++i) {
 		randLocation = Math.floor(Math.random() * seed.cities.length);
 		randName1 = Math.floor(Math.random() * seed.descriptors.length);
 		randName2 = Math.floor(Math.random() * seed.places.length);
