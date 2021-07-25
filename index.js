@@ -68,6 +68,13 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+const mongoSanitize = require("express-mongo-sanitize");
+app.use(
+	mongoSanitize({
+		replaceWith: "_",
+	})
+);
+
 //=================================================================================================
 
 const campgroundsRoutes = require("./routes/campgrounds");
