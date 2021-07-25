@@ -9,6 +9,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const flash = require("connect-flash");
+const helmet = require("helmet");
 
 const app = express();
 
@@ -36,6 +37,10 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+
+const helmetConfig = require("./utils/helmetConfig");
+app.use(helmet());
+app.use(helmet.contentSecurityPolicy(helmetConfig));
 
 //=================================================================================================
 
