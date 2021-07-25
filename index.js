@@ -23,6 +23,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 const sessionConfig = {
+	name: "session",
 	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: true,
