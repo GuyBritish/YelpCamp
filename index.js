@@ -14,8 +14,7 @@ const MongoDBStore = require("connect-mongo");
 
 //=================================================================================================
 
-const DatabaseURL = "mongodb://localhost:27017/YelpCamp";
-//"mongodb://localhost:27017/YelpCamp"  process.env.MONGOATLAS_URL
+const DatabaseURL = process.env.MONGOATLAS_URL || "mongodb://localhost:27017/YelpCamp";
 
 const mongoose = require("mongoose");
 
@@ -47,11 +46,13 @@ app.use(methodOverride("_method"));
 
 app.engine("ejs", ejsMate);
 
+const secretString = process.env.SECRET || "thisisthedevelopmentsecret";
+
 const sessionStore = MongoDBStore.create({
 	mongoUrl: DatabaseURL,
 	touchAfter: 24 * 60 * 60,
 	crypto: {
-		secret: process.env.SECRET,
+		secret: secretString,
 	},
 });
 
@@ -62,7 +63,7 @@ sessionStore.on("error", function (err) {
 const sessionConfig = {
 	name: "session",
 	store: sessionStore,
-	secret: process.env.SECRET,
+	secret: secretString,
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
