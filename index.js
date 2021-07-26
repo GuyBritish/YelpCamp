@@ -10,6 +10,30 @@ const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const flash = require("connect-flash");
 const helmet = require("helmet");
+const MongoDBStore = require("connect-mongo");
+
+//=================================================================================================
+
+const DatabaseURL = "mongodb://localhost:27017/YelpCamp";
+//"mongodb://localhost:27017/YelpCamp"  process.env.MONGOATLAS_URL
+
+const mongoose = require("mongoose");
+
+mongoose.connect(DatabaseURL, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	serverSelectionTimeoutMS: 10000,
+	useFindAndModify: false,
+	useCreateIndex: true,
+});
+
+const dbConnect = mongoose.connection;
+dbConnect.on("error", console.error.bind(console, "Database connection error:"));
+dbConnect.once("open", () => {
+	console.log("Connected to database");
+});
+
+//=================================================================================================
 
 const app = express();
 
@@ -23,8 +47,21 @@ app.use(methodOverride("_method"));
 
 app.engine("ejs", ejsMate);
 
+const sessionStore = MongoDBStore.create({
+	mongoUrl: DatabaseURL,
+	touchAfter: 24 * 60 * 60,
+	crypto: {
+		secret: process.env.SECRET,
+	},
+});
+
+sessionStore.on("error", function (err) {
+	console.log("Session store error! ", err);
+});
+
 const sessionConfig = {
 	name: "session",
+	store: sessionStore,
 	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: true,
@@ -41,27 +78,6 @@ app.use(flash());
 const helmetConfig = require("./utils/helmetConfig");
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy(helmetConfig));
-
-//=================================================================================================
-
-const DatabaseURL = process.env.MONGOATLAS_URL;
-//"mongodb://localhost:27017/YelpCamp"
-
-const mongoose = require("mongoose");
-
-mongoose.connect("mongodb://localhost:27017/YelpCamp", {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	serverSelectionTimeoutMS: 10000,
-	useFindAndModify: false,
-	useCreateIndex: true,
-});
-
-const dbConnect = mongoose.connection;
-dbConnect.on("error", console.error.bind(console, "Database connection error:"));
-dbConnect.once("open", () => {
-	console.log("Connected to database");
-});
 
 //=================================================================================================
 
