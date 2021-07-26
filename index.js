@@ -44,6 +44,9 @@ app.use(helmet.contentSecurityPolicy(helmetConfig));
 
 //=================================================================================================
 
+const DatabaseURL = process.env.MONGOATLAS_URL;
+//"mongodb://localhost:27017/YelpCamp"
+
 const mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost:27017/YelpCamp", {
