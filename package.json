@@ -1,21 +1,41 @@
 {
-  "name": "yelpcamp",
+  "name": "yelpcamp_redone",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "A campground review website",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Max",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuyBritish/YelpCamp.git"
+  },
+  "author": "Guy British",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuyBritish/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/GuyBritish/YelpCamp#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "ejs": "^3.0.2",
+    "@mapbox/mapbox-sdk": "^0.13.0",
+    "cloudinary": "^1.26.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.4.1",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "ejs-mate": "^3.0.0",
     "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "mongoose": "^5.9.6",
+    "express-mongo-sanitize": "^2.1.0",
+    "express-session": "^1.17.2",
+    "helmet": "^4.6.0",
+    "joi": "^17.4.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.13.2",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^4.0.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.0.1"
+    "passport-local-mongoose": "^6.1.0",
+    "sanitize-html": "^2.4.0"
   }
 }
