@@ -140,6 +140,8 @@ app.use((err, req, res, next) => {
 
 //=================================================================================================
 
-app.listen(3000, () => {
-	console.log("YelpCamp is online on port 3000.");
+const Port = process.env.PORT || 3000;
+
+app.listen(Port, () => {
+	console.log(`YelpCamp is online on port ${Port}.`);
 });
