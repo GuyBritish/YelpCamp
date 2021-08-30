@@ -8,7 +8,7 @@ const extension = (joi) => ({
 		"string.escapeHTML": "{{#label}} must not include HTML!",
 	},
 	rules: {
-		esccapeHTML: {
+		escapeHTML: {
 			validate(value, helpers) {
 				const clean = sanitizeHtml(value, {
 					allowedTags: [],
