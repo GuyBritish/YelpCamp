@@ -37,7 +37,7 @@ const config = {
 			"'self'",
 			"blob:",
 			"data:",
-			`https://res.cloudinary.com/${process.env.CLOUDINARY_NAME}/`, //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+			`https://res.cloudinary.com/${process.env.CLOUDINARY_NAME}/`, //SHOULD MATCH CLOUDINARY ACCOUNT!
 			"https://images.unsplash.com/",
 		],
 		fontSrc: ["'self'", ...fontSrcUrls],
